@@ -453,7 +453,7 @@
                                     <input type="text" name="platNomor_${index}" required
                                         class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 border p-2.5 uppercase"
                                         placeholder="H 1234 AB"
-                                        oninput="this.value = this.value.toUpperCase()">
+                                        oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/([A-Z]+)(\\d+)/, '$1 $2').replace(/(\\d+)([A-Z]+)/, '$1 $2')">
                                 </div>
                             </div>
 
