@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendataan & Registrasi Kendaraan Bermotor</title>
+    <title>Registrasi Kendaraan Karyawan PT Hop Lun Indonesia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -50,7 +50,9 @@
             <!-- Logo Hop Lun -->
             <img src="hoplun.jpg" alt="Logo Hop Lun" class="h-20 w-auto mx-auto mb-4 rounded-lg shadow-md border-2 border-white/20 object-cover bg-white">
             
-            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Registrasi Kendaraan Karyawan</h1>
+            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">
+                Registrasi Kendaraan Karyawan<br>PT Hop Lun Indonesia
+            </h1>
             <p class="text-brand-100 text-sm md:text-base">Harap isi data dengan lengkap dan benar (Maksimal 3 Kendaraan).</p>
         </div>
 
@@ -74,7 +76,7 @@
                                 class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 border p-2.5 uppercase transition-colors"
                                 placeholder="Cth: SR123456 atau SM654321">
                         </div>
-                        <p id="idError" class="mt-1 text-xs text-red-500 hidden font-medium">Format salah! Harus SR atau SM diikuti 6 angka.</p>
+                        <p id="idError" class="mt-1 text-xs text-red-500 hidden font-medium">Format salah! Wajib diawali SR/SM diikuti 6 angka.</p>
                     </div>
 
                     <!-- Nama Lengkap -->
@@ -86,9 +88,59 @@
                             </div>
                             <input type="text" id="fullName" name="fullName" required
                                 class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 border p-2.5 uppercase"
-                                placeholder="NAMA LENGKAP"
-                                oninput="this.value = this.value.toUpperCase()">
+                                placeholder="NAMA LENGKAP">
                         </div>
+                    </div>
+
+                    <!-- Departemen -->
+                    <div>
+                        <label for="departemen" class="block text-sm font-medium text-gray-700 mb-1">Departemen <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-building text-gray-400"></i>
+                            </div>
+                            <select id="departemen" name="departemen" required
+                                class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 border p-2.5 appearance-none bg-white">
+                                <option value="" disabled selected>Pilih Departemen</option>
+                                <option value="CUTTING">CUTTING</option>
+                                <option value="FINANCE">FINANCE</option>
+                                <option value="IE">IE</option>
+                                <option value="IT">IT</option>
+                                <option value="LOGISTICS">LOGISTICS</option>
+                                <option value="MECHANIC">MECHANIC</option>
+                                <option value="MOLDING">MOLDING</option>
+                                <option value="OPERATIONAL CONTROL">OPERATIONAL CONTROL</option>
+                                <option value="PACKING">PACKING</option>
+                                <option value="PEOPLE & CULTURE">PEOPLE & CULTURE</option>
+                                <option value="PMC">PMC</option>
+                                <option value="PRODUCTION">PRODUCTION</option>
+                                <option value="QA">QA</option>
+                                <option value="QC">QC</option>
+                                <option value="RAW MATERIALS WAREHOUSE">RAW MATERIALS WAREHOUSE</option>
+                                <option value="SAMPLE ROOM">SAMPLE ROOM</option>
+                                <option value="SEWING">SEWING</option>
+                                <option value="SOURCING & PURCHASING">SOURCING & PURCHASING</option>
+                                <option value="SUSTAINABILITY">SUSTAINABILITY</option>
+                                <option value="TECHNICAL">TECHNICAL</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nomor HP -->
+                    <div>
+                        <label for="nomorHP" class="block text-sm font-medium text-gray-700 mb-1">Nomor HP <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-phone text-gray-400"></i>
+                            </div>
+                            <input type="tel" id="nomorHP" name="nomorHP" required minlength="10" maxlength="13"
+                                class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 border p-2.5 transition-colors"
+                                placeholder="08123456789">
+                        </div>
+                        <p id="hpError" class="mt-1 text-xs text-red-500 hidden font-medium">Nomor HP harus 10-13 digit angka.</p>
                     </div>
                 </div>
             </div>
@@ -167,10 +219,10 @@
 
     <!-- Modal untuk Status/Pesan -->
     <div id="statusModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl transform scale-95 transition-transform duration-300" id="modalContent">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 text-center shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto" id="modalContent">
             <div id="modalIcon" class="text-5xl mb-4"></div>
             <h3 id="modalTitle" class="text-xl font-bold text-gray-800 mb-2"></h3>
-            <p id="modalMessage" class="text-gray-600 mb-6"></p>
+            <div id="modalMessage" class="text-gray-700 mb-6 w-full"></div>
             <button id="modalClose" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-200 hidden">
                 Tutup
             </button>
@@ -183,7 +235,9 @@
             const form = document.getElementById('registrasiForm');
             const idNumberInput = document.getElementById('idNumber');
             const fullNameInput = document.getElementById('fullName');
+            const nomorHPInput = document.getElementById('nomorHP');
             const idError = document.getElementById('idError');
+            const hpError = document.getElementById('hpError');
             const submitBtn = document.getElementById('submitBtn');
             const dynamicFormsContainer = document.getElementById('dynamicFormsContainer');
             
@@ -197,9 +251,21 @@
             const models = ['Beat','Vario','Mio','NMAX','Scoopy','PCX','Aerox','Revo','Supra','Avanza','Xenia','Brio','Agya','Calya','Sigra','Innova','Xpander','Ertiga','Rush','Terios','Lainnya'];
             const colors = ['Hitam','Putih','Merah','Biru','Abu-abu','Silver','Cokelat','Hijau','Kuning','Orange','Lainnya'];
 
-            // --- Validation for ID Number (Real-time) ---
+            // --- Validation for ID Number (Real-time Strict Typing) ---
             idNumberInput.addEventListener('input', function(e) {
-                this.value = this.value.toUpperCase(); // Auto uppercase
+                // Strict typing filter (Hanya izinkan S, R, M dan Angka di posisi yang benar)
+                let val = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                let newVal = '';
+                for (let i = 0; i < val.length; i++) {
+                    if (i === 0) {
+                        if (val[i] === 'S') newVal += val[i];
+                    } else if (i === 1) {
+                        if (val[i] === 'R' || val[i] === 'M') newVal += val[i];
+                    } else if (i >= 2 && i < 8) {
+                        if (/[0-9]/.test(val[i])) newVal += val[i];
+                    }
+                }
+                this.value = newVal;
                 
                 // Format: Diawali SR atau SM, diikuti tepat 6 angka
                 const regex = /^(SR|SM)[0-9]{6}$/;
@@ -212,6 +278,34 @@
                     this.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
                     this.classList.add('border-gray-300', 'focus:border-brand-500', 'focus:ring-brand-500');
                     idError.classList.add('hidden');
+                }
+            });
+
+            // --- Validation for Nama Lengkap (No Numbers) ---
+            fullNameInput.addEventListener('input', function(e) {
+                this.value = this.value.toUpperCase().replace(/[0-9]/g, ''); // Hapus angka otomatis
+            });
+
+            // --- Validation for Nomor HP (Only Numbers, Starts with 0, 10-13 digits) ---
+            nomorHPInput.addEventListener('input', function(e) {
+                let val = this.value.replace(/[^0-9]/g, ''); // Hapus selain angka
+                
+                // Paksa angka pertama selalu '0'
+                // Jika user mengetik angka selain 0 (misal '8'), otomatis berubah jadi '0'
+                if (val.length > 0 && val[0] !== '0') {
+                    val = '0' + val.substring(1);
+                }
+                
+                this.value = val;
+                
+                if (this.value.length > 0 && (this.value.length < 10 || this.value.length > 13)) {
+                    this.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                    this.classList.remove('border-gray-300', 'focus:border-brand-500', 'focus:ring-brand-500');
+                    hpError.classList.remove('hidden');
+                } else {
+                    this.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                    this.classList.add('border-gray-300', 'focus:border-brand-500', 'focus:ring-brand-500');
+                    hpError.classList.add('hidden');
                 }
             });
 
@@ -399,7 +493,7 @@
                 }
 
                 modalTitle.textContent = title;
-                modalMessage.textContent = message;
+                modalMessage.innerHTML = message; // Diubah jadi innerHTML agar format Rekapan HTML terbaca
                 
                 modal.classList.remove('hidden');
                 setTimeout(() => {
@@ -421,7 +515,7 @@
             // =========================================================================
             // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
             // =========================================================================
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzasALsFTC_0b0AwVEaO27uV_KWRTkZD-GGgkebKb_pT8XhEyvdhc_Niue9KvWEc0jMeQ/exec';
+            const scriptURL = 'MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_ANDA_DISINI';
             
             // --- Form Submit Logic ---
             form.addEventListener('submit', function(e) {
@@ -432,6 +526,14 @@
                 if (!/^(SR|SM)[0-9]{6}$/.test(idVal)) {
                     showModal('error', 'Error Validasi', 'Nomor ID tidak sesuai format. Harus berawalan SR atau SM diikuti 6 angka.');
                     idNumberInput.focus();
+                    return;
+                }
+
+                // Final validation: Pastikan Nomor HP benar
+                const hpVal = nomorHPInput.value;
+                if (hpVal.length < 10 || hpVal.length > 13) {
+                    showModal('error', 'Error Validasi', 'Nomor HP harus terdiri dari 10 hingga 13 digit angka.');
+                    nomorHPInput.focus();
                     return;
                 }
 
@@ -456,6 +558,36 @@
                     });
                 }
                 
+                // Generate Summary HTML untuk Success Modal (Struk/Resi)
+                let summaryHTML = `
+                    <div class="text-left mt-4 text-sm bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-inner">
+                        <p class="mb-1"><span class="text-gray-500"><i class="fa-solid fa-hashtag w-5"></i> ID:</span> <strong class="text-gray-800">${idVal}</strong></p>
+                        <p class="mb-1"><span class="text-gray-500"><i class="fa-solid fa-user w-5"></i> Nama:</span> <strong class="text-gray-800">${formData.get('fullName')}</strong></p>
+                        <p class="mb-1"><span class="text-gray-500"><i class="fa-solid fa-building w-5"></i> Dept:</span> <strong class="text-gray-800">${formData.get('departemen')}</strong></p>
+                        <p class="mb-3"><span class="text-gray-500"><i class="fa-solid fa-phone w-5"></i> HP:</span> <strong class="text-gray-800">${hpVal}</strong></p>
+                        <div class="h-px bg-gray-300 w-full mb-3"></div>
+                        <p class="font-semibold text-gray-800 mb-2"><i class="fa-solid fa-list-check text-brand-500"></i> Rincian Kendaraan (${maxKendaraan}):</p>
+                        <ul class="space-y-2">
+                `;
+
+                for (let i = 1; i <= maxKendaraan; i++) {
+                    const jenis = formData.get(`jenisKendaraan_${i}`);
+                    const plat = formData.get(`platNomor_${i}`);
+                    const merk = formData.get(`merkKendaraan_${i}`);
+                    const tipe = formData.get(`tipeKendaraan_${i}`);
+                    const warna = formData.get(`warnaKendaraan_${i}`);
+                    const icon = jenis === 'Motor' ? '<i class="fa-solid fa-motorcycle text-brand-500"></i>' : '<i class="fa-solid fa-car text-brand-500"></i>';
+                    
+                    summaryHTML += `
+                        <li class="flex flex-col p-3 bg-white rounded-lg border border-gray-200 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-brand-500"></div>
+                            <span class="font-bold text-gray-800 flex items-center gap-2">${icon} ${plat}</span>
+                            <span class="text-gray-600 text-xs mt-1 font-medium">${merk} - ${tipe} (${warna})</span>
+                        </li>
+                    `;
+                }
+                summaryHTML += `</ul></div>`;
+
                 fetch(scriptURL, { 
                     method: 'POST', 
                     body: formData
@@ -465,7 +597,8 @@
                     submitBtn.innerHTML = originalBtnText;
                     
                     if (response.ok) {
-                        showModal('success', 'Registrasi Berhasil!', `Data pendaftaran kendaraan untuk ID ${idVal} telah tersimpan.`);
+                        // Tampilkan modal dengan rincian
+                        showModal('success', 'Registrasi Berhasil!', `Data pendaftaran kendaraan Anda telah tersimpan di sistem. ${summaryHTML}`);
                         form.reset();
                         updateForms(); 
                     } else {
