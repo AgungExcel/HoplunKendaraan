@@ -612,6 +612,10 @@
                         formData.delete(`${field}Lainnya_${i}`);
                     });
                 }
+
+                // FIX: Menambahkan tanda petik tunggal (') di depan Nomor HP
+                // agar Google Sheets menganggapnya sebagai teks murni dan angka 0 tidak hilang
+                formData.set('nomorHP', "'" + hpVal);
                 
                 // Generate Summary HTML untuk Success Modal (Struk/Resi)
                 let summaryHTML = `
