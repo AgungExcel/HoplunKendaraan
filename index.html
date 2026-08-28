@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrasi Kendaraan Karyawan PT Hop Lun Indonesia</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="tabicon.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -246,9 +249,29 @@
             const countError = document.getElementById('countError');
             const emptyError = document.getElementById('emptyError');
 
-            // --- Master Data (Dropdowns berdasarkan data user) ---
-            const brands = ['Honda','Yamaha','Suzuki','Toyota','Daihatsu','Mitsubishi','Nissan','Kawasaki','Isuzu','Wuling','Hyundai','Lainnya'];
-            const models = ['Beat','Vario','Mio','NMAX','Scoopy','PCX','Aerox','Revo','Supra','Avanza','Xenia','Brio','Agya','Calya','Sigra','Innova','Xpander','Ertiga','Rush','Terios','Lainnya'];
+            // --- Master Data Terstruktur untuk Dropdown Bertingkat ---
+            const vehicleData = {
+                'Motor': {
+                    'Honda': ['Beat', 'Vario', 'Scoopy', 'PCX', 'ADV', 'Revo', 'Supra', 'CBR', 'CB150R', 'Sonic', 'Lainnya'],
+                    'Yamaha': ['NMAX', 'Aerox', 'Lexi', 'Fazzio', 'Grand Filano', 'Mio', 'Jupiter', 'Vixion', 'R15', 'XSR', 'Lainnya'],
+                    'Suzuki': ['Satria', 'Address', 'Nex', 'Smash', 'GSX', 'Avenis', 'Lainnya'],
+                    'Kawasaki': ['Ninja', 'KLX', 'W175', 'D-Tracker', 'ZX', 'Lainnya'],
+                    'Vespa': ['Sprint', 'Primavera', 'GTS', 'LX', 'S', 'Lainnya'],
+                    'Lainnya': ['Lainnya']
+                },
+                'Mobil': {
+                    'Toyota': ['Avanza', 'Veloz', 'Innova / Zenix', 'Agya', 'Calya', 'Rush', 'Fortuner', 'Yaris', 'Raize', 'Hilux', 'Lainnya'],
+                    'Daihatsu': ['Xenia', 'Sigra', 'Ayla', 'Terios', 'Rocky', 'Gran Max', 'Luxio', 'Sirion', 'Lainnya'],
+                    'Honda': ['Brio', 'HR-V', 'BR-V', 'CR-V', 'Mobilio', 'City', 'Civic', 'WR-V', 'Lainnya'],
+                    'Mitsubishi': ['Xpander', 'Xpander Cross', 'Pajero Sport', 'Triton', 'L300', 'Lainnya'],
+                    'Suzuki': ['Ertiga', 'XL7', 'Carry', 'Ignis', 'Baleno', 'Jimny', 'S-Presso', 'Lainnya'],
+                    'Nissan': ['Livina', 'Serena', 'X-Trail', 'Kicks', 'Magnite', 'Lainnya'],
+                    'Hyundai': ['Stargazer', 'Creta', 'Ioniq 5', 'Palisade', 'Santa Fe', 'Lainnya'],
+                    'Wuling': ['Confero', 'Cortez', 'Almaz', 'Air EV', 'Binguo EV', 'Lainnya'],
+                    'Isuzu': ['Panther', 'MU-X', 'D-Max', 'Traga', 'Elf', 'Lainnya'],
+                    'Lainnya': ['Lainnya']
+                }
+            };
             const colors = ['Hitam','Putih','Merah','Biru','Abu-abu','Silver','Cokelat','Hijau','Kuning','Orange','Lainnya'];
 
             // --- Validation for ID Number (Real-time Strict Typing) ---
@@ -354,6 +377,38 @@
                 }
             };
 
+            // Fungsi Global untuk Update Dropdown Model berdasarkan Merk
+            window.handleMerkChange = function(selectElement, index, type) {
+                // Atur toggle jika Merk adalah 'Lainnya'
+                toggleLainnya(selectElement, `merkLainnya_${index}`);
+                
+                const tipeSelect = document.getElementById(`tipeKendaraan_${index}`);
+                const tipeInput = document.getElementById(`tipeLainnya_${index}`);
+                const selectedMerk = selectElement.value;
+                
+                // Reset dropdown Tipe
+                tipeSelect.innerHTML = '<option value="" disabled selected>Pilih Tipe / Model</option>';
+                tipeSelect.classList.remove('hidden');
+                tipeSelect.setAttribute('required', 'required');
+                tipeInput.classList.add('hidden');
+                tipeInput.removeAttribute('required');
+                tipeInput.value = '';
+
+                // Isi dropdown Tipe sesuai dengan Merk yang dipilih
+                if (selectedMerk && vehicleData[type][selectedMerk]) {
+                    const models = vehicleData[type][selectedMerk];
+                    models.forEach(model => {
+                        tipeSelect.insertAdjacentHTML('beforeend', `<option value="${model}">${model}</option>`);
+                    });
+                    
+                    // Jika Merk "Lainnya" dipilih, otomatis arahkan Tipe ke "Lainnya" juga
+                    if (selectedMerk === 'Lainnya') {
+                        tipeSelect.value = 'Lainnya';
+                        toggleLainnya(tipeSelect, `tipeLainnya_${index}`);
+                    }
+                }
+            };
+
             function generateCombinedForms(motorCount, mobilCount) {
                 dynamicFormsContainer.innerHTML = ''; 
                 let currentFormIndex = 1;
@@ -373,6 +428,7 @@
 
             function createFormTemplate(type, index) {
                 const icon = type === 'Motor' ? '<i class="fa-solid fa-motorcycle text-brand-500"></i>' : '<i class="fa-solid fa-car text-brand-500"></i>';
+                const availableBrands = Object.keys(vehicleData[type]);
 
                 return `
                     <div class="bg-white rounded-xl p-5 border border-brand-200 shadow-sm relative form-section-enter" style="animation-delay: ${index * 0.1}s">
@@ -408,10 +464,10 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fa-solid fa-tag text-gray-400"></i>
                                     </div>
-                                    <select name="merkKendaraan_${index}" required onchange="toggleLainnya(this, 'merkLainnya_${index}')"
+                                    <select name="merkKendaraan_${index}" required onchange="handleMerkChange(this, ${index}, '${type}')"
                                         class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 border p-2.5 appearance-none bg-white">
                                         <option value="" disabled selected>Pilih Merk</option>
-                                        ${brands.map(b => `<option value="${b}">${b}</option>`).join('')}
+                                        ${availableBrands.map(b => `<option value="${b}">${b}</option>`).join('')}
                                     </select>
                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                         <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
@@ -429,10 +485,9 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fa-solid fa-gears text-gray-400"></i>
                                     </div>
-                                    <select name="tipeKendaraan_${index}" required onchange="toggleLainnya(this, 'tipeLainnya_${index}')"
+                                    <select id="tipeKendaraan_${index}" name="tipeKendaraan_${index}" required onchange="toggleLainnya(this, 'tipeLainnya_${index}')"
                                         class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 border p-2.5 appearance-none bg-white">
-                                        <option value="" disabled selected>Pilih Tipe / Model</option>
-                                        ${models.map(m => `<option value="${m}">${m}</option>`).join('')}
+                                        <option value="" disabled selected>Pilih Merk Terlebih Dahulu</option>
                                     </select>
                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                         <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
@@ -513,7 +568,7 @@
             modalClose.addEventListener('click', closeModal);
 
             // =========================================================================
-            // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+            // URL WEB APP GOOGLE APPS SCRIPT
             // =========================================================================
             const scriptURL = 'https://script.google.com/macros/s/AKfycbzsp85MZLl8YcuJxxdw3IN0bykuAnZTGcUBSl5LfSWbJoVBEy5rT2TojkFH1pUQJxujHg/exec';
             
